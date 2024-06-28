@@ -4,6 +4,7 @@ const session = require('express-session')
 const MysqlStore = require('express-mysql-session')(session)
 const cookieRouter = require('./src/cookie')
 const sessionRouter = require('./src/session')
+const jwtRouter = require('./src/jwt')
 const path = require('path')
 
 // express 应用实例
@@ -44,16 +45,27 @@ app.use('/session', sessionRouter)
 // 安装 Cookie Router
 app.use('/cookie', cookieRouter)
 
+// 安装 JWT Router
+app.use('/jwt', jwtRouter)
+
 // 登录页面映射
 const loginPages = {
-  cookie: 'cookie-login',
-  session: 'session-login'
+  cookie: 'cookie/login',
+  session: 'session/login',
+  jwt: 'jwt/login',
 }
+
 // 登录页
 app.use('/login', (req, res) => {
   const authType = req.query.authType ?? 'cookie'
   const loginPage = loginPages[authType]
   res.render(loginPage)
+})
+
+// 业务页面
+// 登录页
+app.use('/business', (req, res) => {
+  res.render('jwt-business')
 })
 
 // 定义服务启用端口号

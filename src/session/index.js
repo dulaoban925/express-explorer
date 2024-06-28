@@ -14,7 +14,7 @@ router.post('/login', (req, res) => {
     return
   }
   // 验证用户名和密码
-  if (username === user.username && user.password) {
+  if (username === user.username && password === user.password) {
     // 生成 session
     req.session.regenerate((err) => {
       if (err) next(err)
